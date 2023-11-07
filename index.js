@@ -31,13 +31,17 @@ const dbConnect = async () => {
   }
 };
 dbConnect();
-const productCollection = client.db('productDB').collection('product');
+
+const jobsCollection = client.db('jobsDB').collection('job');
 
 app.get('/', (req, res) => {
-  res.send('TechNest server is LOL!');
+  res.send('JobQuest is Here!');
 });
-app.get('/products', async (req, res) => {
-  res.send('Getting Product');
+
+app.get('/jobs', async (req, res) => {
+  const cursor = jobsCollection.find();
+  const result = await cursor.toArray();
+  res.send(result);
 });
 
 // app.post('/products', async (req, res) => {
