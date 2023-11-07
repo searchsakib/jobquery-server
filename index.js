@@ -38,12 +38,14 @@ app.get('/', (req, res) => {
   res.send('JobQuest is Here!');
 });
 
+// for all job data
 app.get('/jobs', async (req, res) => {
   const cursor = jobsCollection.find();
   const result = await cursor.toArray();
   res.send(result);
 });
 
+// for one job data with mongoDB id
 app.get('/jobs/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
