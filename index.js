@@ -48,5 +48,5 @@ app.get('/products', async (req, res) => {
 // });
 
 app.listen(port, () => {
-  console.log(`TechNest is running on port:${port}`);
+  console.log(`JobQuest is running on port:${port}`);
 });
