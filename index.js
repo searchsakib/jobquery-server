@@ -34,6 +34,7 @@ dbConnect();
 
 const jobsCollection = client.db('jobsDB').collection('job');
 const myBidsCollection = client.db('jobsDB').collection('myBids');
+const dynamicJobsCollection = client.db('jobsDB').collection('dynamicJobs');
 
 app.get('/', (req, res) => {
   res.send('JobQuest is Here!');
@@ -66,6 +67,14 @@ app.post('/my-bids', async (req, res) => {
   const bid = req.body;
   console.log(bid);
   const result = await myBidsCollection.insertOne(bid);
+  res.send(result);
+});
+
+// adding job in dynamicJobsCollection
+app.post('/add-job', async (req, res) => {
+  const addJob = req.body;
+  console.log(addJob);
+  const result = await dynamicJobsCollection.insertOne(addJob);
   res.send(result);
 });
 
