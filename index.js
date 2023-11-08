@@ -54,6 +54,13 @@ app.get('/jobs/:id', async (req, res) => {
   res.send(result);
 });
 
+// getting myBids data
+app.get('/my-bids', async (req, res) => {
+  const cursor = myBidsCollection.find();
+  const cart = await cursor.toArray();
+  res.send(cart);
+});
+
 // adding bid in my bids page with myBidsCollection
 app.post('/my-bids', async (req, res) => {
   const bid = req.body;
