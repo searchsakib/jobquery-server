@@ -33,6 +33,7 @@ const dbConnect = async () => {
 dbConnect();
 
 const jobsCollection = client.db('jobsDB').collection('job');
+const myBidsCollection = client.db('jobsDB').collection('myBids');
 
 app.get('/', (req, res) => {
   res.send('JobQuest is Here!');
@@ -50,6 +51,14 @@ app.get('/jobs/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
   const result = await jobsCollection.findOne(query);
+  res.send(result);
+});
+
+// adding bid in my bids page with myBidsCollection
+app.post('/my-bids', async (req, res) => {
+  const bid = req.body;
+  console.log(bid);
+  const result = await myBidsCollection.insertOne(bid);
   res.send(result);
 });
 
