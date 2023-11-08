@@ -55,6 +55,14 @@ app.get('/jobs/:id', async (req, res) => {
   res.send(result);
 });
 
+// for one posted job data w/ mongoDB id from dynamicCollection
+app.get('/update-job/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await dynamicJobsCollection.findOne(query);
+  res.send(result);
+});
+
 // getting myBids data
 app.get('/my-bids', async (req, res) => {
   const cursor = myBidsCollection.find();
