@@ -93,12 +93,35 @@ app.post('/add-job', async (req, res) => {
   res.send(result);
 });
 
-// app.post('/products', async (req, res) => {
-//   const newProduct = req.body;
-//   console.log(newProduct);
-//   const result = await productCollection.insertOne(newProduct);
-//   res.send(result);
-// });
+// for updating dynamicJobs collection
+
+app.put('/my-posted-jobs/:id', async (req, res) => {
+  const id = req.params.id;
+  const filter = { _id: new ObjectId(id) };
+  const options = { upsert: true };
+  const updateJob = req.body;
+  const job = {
+    $set: {
+      employer_email: updateJob.employer_email,
+      job_title: updateJob.job_title,
+      description: updateJob.description,
+      category: updateJob.category,
+      deadline: updateJob.deadline,
+      min_price: updateJob.min_price,
+      max_price: updateJob.max_price,
+    },
+  };
+  const result = await dynamicJobsCollection.updateOne(filter, job, options);
+  res.send(result);
+});
+
+// delete from my posted jobs which is a dynamicjob collection
+app.delete('/my-posted-jobs/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await dynamicJobsCollection.deleteOne(query);
+  res.send(result);
+});
 
 app.listen(port, () => {
   console.log(`JobQuest is running on port:${port}`);
