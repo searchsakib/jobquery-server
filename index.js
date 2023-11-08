@@ -34,6 +34,9 @@ dbConnect();
 
 const jobsCollection = client.db('jobsDB').collection('job');
 const myBidsCollection = client.db('jobsDB').collection('myBids');
+const bidRequestsCollection = client
+  .db('jobsDB')
+  .collection('bidRequestsCollection');
 const dynamicJobsCollection = client.db('jobsDB').collection('dynamicJobs');
 
 app.get('/', (req, res) => {
@@ -66,6 +69,13 @@ app.get('/update-job/:id', async (req, res) => {
 // getting myBids data
 app.get('/my-bids', async (req, res) => {
   const cursor = myBidsCollection.find();
+  const cart = await cursor.toArray();
+  res.send(cart);
+});
+
+// getting bidReq data
+app.get('/bid-requests', async (req, res) => {
+  const cursor = bidRequestsCollection.find();
   const cart = await cursor.toArray();
   res.send(cart);
 });
