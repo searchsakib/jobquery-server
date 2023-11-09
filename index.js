@@ -37,7 +37,6 @@ const myBidsCollection = client.db('jobsDB').collection('myBids');
 const bidRequestsCollection = client
   .db('jobsDB')
   .collection('bidRequestsCollection');
-const dynamicJobsCollection = client.db('jobsDB').collection('dynamicJobs');
 
 app.get('/', (req, res) => {
   res.send('JobQuest is Here!');
@@ -58,11 +57,11 @@ app.get('/jobs/:id', async (req, res) => {
   res.send(result);
 });
 
-// for one posted job data w/ mongoDB id from dynamicCollection
+// for one posted job data w/ mongoDB id from jobsCollection
 app.get('/update-job/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
-  const result = await dynamicJobsCollection.findOne(query);
+  const result = await jobsCollection.findOne(query);
   res.send(result);
 });
 
@@ -81,8 +80,9 @@ app.get('/bid-requests', async (req, res) => {
 });
 
 //getting my posted jobs data
+
 app.get('/my-posted-jobs', async (req, res) => {
-  const cursor = dynamicJobsCollection.find();
+  const cursor = jobsCollection.find();
   const cart = await cursor.toArray();
   res.send(cart);
 });
@@ -95,15 +95,16 @@ app.post('/my-bids', async (req, res) => {
   res.send(result);
 });
 
-// adding job in dynamicJobsCollection
+// adding job in jobsCollection
+
 app.post('/add-job', async (req, res) => {
   const addJob = req.body;
   console.log(addJob);
-  const result = await dynamicJobsCollection.insertOne(addJob);
+  const result = await jobsCollection.insertOne(addJob);
   res.send(result);
 });
 
-// for updating dynamicJobs collection
+// for updating jobscollection
 
 app.put('/my-posted-jobs/:id', async (req, res) => {
   const id = req.params.id;
@@ -121,15 +122,16 @@ app.put('/my-posted-jobs/:id', async (req, res) => {
       max_price: updateJob.max_price,
     },
   };
-  const result = await dynamicJobsCollection.updateOne(filter, job, options);
+  const result = await jobsCollection.updateOne(filter, job, options);
   res.send(result);
 });
 
-// delete from my posted jobs which is a dynamicjob collection
+// delete from my posted jobs jobscollection
+
 app.delete('/my-posted-jobs/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
-  const result = await dynamicJobsCollection.deleteOne(query);
+  const result = await jobsCollection.deleteOne(query);
   res.send(result);
 });
 
