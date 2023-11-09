@@ -95,6 +95,14 @@ app.post('/my-bids', async (req, res) => {
   res.send(result);
 });
 
+// adding bid in bidreq page with bidrequestcollection
+app.post('/bid-reqs', async (req, res) => {
+  const bidReq = req.body;
+  console.log(bidReq);
+  const result = await bidRequestsCollection.insertOne(bidReq);
+  res.send(result);
+});
+
 // adding job in jobsCollection
 
 app.post('/add-job', async (req, res) => {
